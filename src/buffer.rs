@@ -1173,17 +1173,7 @@ impl Buffer {
                 )?;
             }
             Motion::Home => {
-                let mut layout_cursor = self.layout_cursor(font_system, cursor)?;
-                layout_cursor.glyph = 0;
-                #[allow(unused_assignments)]
-                {
-                    (cursor, cursor_x_opt) = self.cursor_motion(
-                        font_system,
-                        cursor,
-                        cursor_x_opt,
-                        Motion::LayoutCursor(layout_cursor),
-                    )?;
-                }
+                cursor.index = 0;
                 cursor_x_opt = None;
             }
             Motion::SoftHome => {
