@@ -1186,17 +1186,13 @@ impl Buffer {
                 cursor_x_opt = None;
             }
             Motion::End => {
-                let mut layout_cursor = self.layout_cursor(font_system, cursor)?;
-                layout_cursor.glyph = usize::MAX;
-                #[allow(unused_assignments)]
-                {
-                    (cursor, cursor_x_opt) = self.cursor_motion(
-                        font_system,
-                        cursor,
-                        cursor_x_opt,
-                        Motion::LayoutCursor(layout_cursor),
-                    )?;
-                }
+                let line = self.lines.get(cursor.line)?;
+                cursor.index = line
+                    .text()
+                    .char_indices()
+                    .last()
+                    .map(|(i, _)| i)
+                    .unwrap_or(0);
                 cursor_x_opt = None;
             }
             Motion::ParagraphStart => {
